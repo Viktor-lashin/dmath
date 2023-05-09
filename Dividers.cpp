@@ -1,3 +1,4 @@
+//похожих нет, он пока не проверял, жду
 #include <iostream>
 #include <vector>
 #include <math.h>
