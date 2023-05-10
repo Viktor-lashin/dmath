@@ -1,0 +1,78 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+
+#define inf 1000000
+
+using namespace std;
+
+int main()
+{
+    int n;
+    cin>>n;
+    vector<vector<int>> matr(n, vector<int>(n));
+    vector<vector<int>> matrLen(n, vector<int>(n));
+    for(int i = 0 ; i < n ; i++){
+        for(int j = 0 ; j < n ; j++){
+            cin>>matr[i][j];
+            matrLen[i][j] = inf;
+        }
+    }
+    priority_queue<pair<int, pair<int, int>>> Q;
+    matrLen[0][0] = matr[0][0];
+    pair<int, pair<int, int>> P;
+    P.first = -matr[0][0];
+    P.second.first = 0;
+    P.second.second = 0;
+    Q.push(P);
+    int nowx, nowy;
+    while (!Q.empty()){
+        pair<int, pair<int, int>> now = Q.top();
+
+        Q.pop();
+        int Len = -now.first;
+        int x = now.second.first;
+        int y = now.second.second;
+
+        if (Len > matrLen[x][y]) continue;
+        if (x == n - 1 && y == n - 1) break;
+        nowx = x - 1;
+        nowy = y;
+        if (nowx >= 0 && nowy >= 0 && nowx < n && nowy < n && matrLen[nowx][nowy] > Len + matr[nowx][nowy]) {
+            matrLen[nowx][nowy] = Len + matr[nowx][nowy];
+            P.first = -matrLen[nowx][nowy];
+            P.second.first = nowx;
+            P.second.second = nowy;
+            Q.push(P);
+        }
+        nowx = x + 1;
+        nowy = y;
+        if (nowx >= 0 && nowy >= 0 && nowx < n && nowy < n && matrLen[nowx][nowy] > Len + matr[nowx][nowy]) {
+            matrLen[nowx][nowy] = Len + matr[nowx][nowy];
+            P.first = -matrLen[nowx][nowy];
+            P.second.first = nowx;
+            P.second.second = nowy;
+            Q.push(P);
+        }
+        nowx = x;
+        nowy = y + 1;
+        if (nowx >= 0 && nowy >= 0 && nowx < n && nowy < n && matrLen[nowx][nowy] > Len + matr[nowx][nowy]) {
+            matrLen[nowx][nowy] = Len + matr[nowx][nowy];
+            P.first = -matrLen[nowx][nowy];
+            P.second.first = nowx;
+            P.second.second = nowy;
+            Q.push(P);
+        }
+        nowx = x;
+        nowy = y - 1;
+        if (nowx >= 0 && nowy >= 0 && nowx < n && nowy < n && matrLen[nowx][nowy] > Len + matr[nowx][nowy]) {
+            matrLen[nowx][nowy] = Len + matr[nowx][nowy];
+            P.first = -matrLen[nowx][nowy];
+            P.second.first = nowx;
+            P.second.second = nowy;
+            Q.push(P);
+        }
+    }
+    std::cout << matrLen[n-1][n-1] << std::endl;
+    return 0;
+}
